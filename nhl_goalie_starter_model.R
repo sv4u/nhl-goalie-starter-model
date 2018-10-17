@@ -115,7 +115,7 @@ form <- paste(features, collapse = " + ")
 form <- paste('learning01$starter ~', form)
 form <- as.formula(form)
 
-nn01 <- neuralnet(form, learning01[3:14], hidden = c(10, 10, 10), linear.output = FALSE)
+nn01 <- neuralnet(form, learning01[3:14], hidden = c(50, 50, 50, 50, 50), linear.output = FALSE)
 
 ###############################################################################
 
