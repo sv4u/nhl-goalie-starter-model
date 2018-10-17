@@ -53,6 +53,12 @@ hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
 
 ###############################################################################
 
+# saveGraph
+
+saveGraph <- function(graph, filename) {
+	ggsave(filename, plot = graph)
+}
+
 # calculateError
 
 calculateError <- function(actual, predicted) {
@@ -229,3 +235,9 @@ nn02predictCurrentGoalie <- compute(nn02, testingData[3:14])
 nn02predictCurrentGoalie$round <- sapply(nn02predictCurrentGoalie$net.result, round, digits = 0)
 
 print(paste("2018-2019 prediction (nn02) error rate:", calculateError(testingData$starter, nn02predictCurrentGoalie$round)))
+
+###############################################################################
+
+saveGraph(ldGraph, "images/low-danger.png")
+saveGraph(mdGraph, "images/mid-danger.png")
+saveGraph(hdGraph, "images/high-danger.png")
