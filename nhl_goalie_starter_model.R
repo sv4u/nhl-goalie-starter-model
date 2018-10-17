@@ -56,7 +56,7 @@ hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
 # saveGraph
 
 saveGraph <- function(graph, filename) {
-	ggsave(filename, plot = graph, width = 27, height = 48, units = "cm")
+	ggsave(filename, plot = graph, height = 27, width = 48, units = "cm")
 }
 
 # calculateError
