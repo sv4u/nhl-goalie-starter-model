@@ -8,10 +8,10 @@ library(neuralnet)
 
 ###############################################################################
 
-this.dir <- dirname(parent.frame(2)$ofile)
-setwd(this.dir)
+#this.dir <- dirname(parent.frame(2)$ofile)
+#setwd(this.dir)
 
-rm(list = ls())
+#rm(list = ls())
 
 ###############################################################################
 
