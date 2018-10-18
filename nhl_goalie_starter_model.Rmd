@@ -20,8 +20,91 @@ This model is a very simple neural network model. It is currently based on two y
 - High Danger Goals Against (HdGA)
 - High Danger Save Percentage (HdSv)
 
-Before we start with building the neural network, we must first visualize some the important statistics we are using. So, let's first visualize low danger shots against vs low danger shot percentage.
+Before we start with building the neural network, we must first visualize some the important statistics we are using. So, let's first visualize danger shots against vs danger shot percentage.
 
-```{r, echo}
+```{r}
 require(ggplot2)
+```
+
+So now, let's read our data in. Make sure you have the data from the repository. Repository can be found [here](https://github.com/sv4u/nhl-goalie-starter-model).
+
+Now, with the data stored in the `data` folder, we can start importing it.
+
+```{r}
+data01 <- read.csv("data/goalie_stats_20172018.csv")
+data02 <- read.csv("data/goalie_stats_20162017.csv")
+testing <- read.csv("data/goalie_stats_20182019.csv")
+old <- read.csv("data/goalie_stats_20152016.csv")
+```
+
+Now that we have all data imported, we can create data frames for our graphs.
+
+First, low danger shots:
+
+```{r}
+lowDanger <-
+	data.frame(
+		name = data01["Player"][[1]],
+		ldsa = data01["LDSA"][[1]],
+		ldsv = data01["LDSv."][[1]],
+		ldga = data01["LDGA"][[1]]
+	)
+```
+
+Now, using `ggplot`, we can create a plot with a varying point size.
+
+```{r}
+ldGraph <- ggplot(lowDanger, aes(x = ldsa, y = ldsv)) +
+	geom_point(alpha = 0.6, aes(size = ldga), show.legend = T) +
+	theme_minimal() +
+	ggtitle("Low Danger Shots Against vs Save Percentage") +
+	labs(x = "Low Danger Shots Against",
+		 y = "Low Danger Save Percentage",
+		 size = "Low Danger Goals Against")
+```
+
+So, it will look like this:
+
+```{r}
+print(ldGraph)
+```
+
+Now, to create the same graph for mid and high danger graphs.
+
+```{r}
+midDanger <-
+	data.frame(
+		name = data01["Player"][[1]],
+		mdsa = data01["MDSA"][[1]],
+		mdsv = data01["MDSv."][[1]],
+		mdga = data01["MDGA"][[1]]
+	)
+
+mdGraph <- ggplot(midDanger, aes(x = mdsa, y = mdsv)) +
+	geom_point(alpha = 0.6, aes(size = mdga), show.legend = T) +
+	theme_minimal() +
+	ggtitle("Mid Danger Shots Against vs Save Percentage") +
+	labs(x = "Mid Danger Shots Against",
+		 y = "Mid Danger Save Percentage",
+		 size = "Mid Danger Goals Against")
+
+print(mdGraph)
+
+highDanger <-
+	data.frame(
+		name = data01["Player"][[1]],
+		hdsa = data01["HDSA"][[1]],
+		hdsv = data01["HDSv."][[1]],
+		hdga = data01["HDGA"][[1]]
+	)
+
+hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
+	geom_point(alpha = 0.6, aes(size = hdga), show.legend = T) +
+	theme_minimal() +
+	ggtitle("High Danger Shots Against vs Save Percentage") +
+	labs(x = "High Danger Shots Against",
+		 y = "High Danger Save Percentage",
+		 size = "High Danger Goals Against")
+
+print(hdGraph)
 ```
