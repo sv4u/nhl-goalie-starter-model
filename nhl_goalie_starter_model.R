@@ -27,9 +27,27 @@ old <- read.csv("data/goalie_stats_20152016.csv")
 #   Low Danger sv%, Medium Danger SA, Medium Danger GA, Medium Danger sv%, High Danger SA,
 #   High Danger GA, High Danger sv%, Goals Saved Above Average, GSAA per 30 shots
 
-lowDanger <- data.frame(name = data01["Player"][[1]], ldsa = data01["LDSA"][[1]], ldsv = data01["LDSv."][[1]], ldga = data01["LDGA"][[1]])
-midDanger <- data.frame(name = data01["Player"][[1]], mdsa = data01["MDSA"][[1]], mdsv = data01["MDSv."][[1]], mdga = data01["MDGA"][[1]])
-highDanger <- data.frame(name = data01["Player"][[1]], hdsa = data01["HDSA"][[1]], hdsv = data01["HDSv."][[1]], hdga = data01["HDGA"][[1]])
+lowDanger <-
+	data.frame(
+		name = data01["Player"][[1]],
+		ldsa = data01["LDSA"][[1]],
+		ldsv = data01["LDSv."][[1]],
+		ldga = data01["LDGA"][[1]]
+	)
+midDanger <-
+	data.frame(
+		name = data01["Player"][[1]],
+		mdsa = data01["MDSA"][[1]],
+		mdsv = data01["MDSv."][[1]],
+		mdga = data01["MDGA"][[1]]
+	)
+highDanger <-
+	data.frame(
+		name = data01["Player"][[1]],
+		hdsa = data01["HDSA"][[1]],
+		hdsv = data01["HDSv."][[1]],
+		hdga = data01["HDGA"][[1]]
+	)
 
 ###############################################################################
 
@@ -37,26 +55,38 @@ ldGraph <- ggplot(lowDanger, aes(x = ldsa, y = ldsv)) +
 	geom_point(alpha = 0.6, aes(size = ldga), show.legend = T) +
 	theme_minimal() +
 	ggtitle("Low Danger Shots Against vs Save Percentage") +
-	labs(x = "Low Danger Shots Against", y = "Low Danger Save Percentage", size = "Low Danger Goals Against")
+	labs(x = "Low Danger Shots Against",
+		 y = "Low Danger Save Percentage",
+		 size = "Low Danger Goals Against")
 
 mdGraph <- ggplot(midDanger, aes(x = mdsa, y = mdsv)) +
 	geom_point(alpha = 0.6, aes(size = mdga), show.legend = T) +
 	theme_minimal() +
 	ggtitle("Mid Danger Shots Against vs Save Percentage") +
-	labs(x = "Mid Danger Shots Against", y = "Mid Danger Save Percentage", size = "Mid Danger Goals Against")
+	labs(x = "Mid Danger Shots Against",
+		 y = "Mid Danger Save Percentage",
+		 size = "Mid Danger Goals Against")
 
 hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
 	geom_point(alpha = 0.6, aes(size = hdga), show.legend = T) +
 	theme_minimal() +
 	ggtitle("High Danger Shots Against vs Save Percentage") +
-	labs(x = "High Danger Shots Against", y = "High Danger Save Percentage", size = "High Danger Goals Against")
+	labs(x = "High Danger Shots Against",
+		 y = "High Danger Save Percentage",
+		 size = "High Danger Goals Against")
 
 ###############################################################################
 
 # saveGraph
 
 saveGraph <- function(graph, filename) {
-	ggsave(filename, plot = graph, height = 27, width = 48, units = "cm")
+	ggsave(
+		filename,
+		plot = graph,
+		height = 27,
+		width = 48,
+		units = "cm"
+	)
 }
 
 # calculateError
@@ -115,7 +145,11 @@ form <- paste(features, collapse = " + ")
 form <- paste('learning01$starter ~', form)
 form <- as.formula(form)
 
-nn01 <- neuralnet(form, learning01[3:14], hidden = c(10, 10, 10), linear.output = FALSE)
+nn01 <-
+	neuralnet(form,
+			  learning01[3:14],
+			  hidden = c(10, 10, 10),
+			  linear.output = FALSE)
 
 ###############################################################################
 
@@ -166,7 +200,11 @@ form <- paste(features, collapse = " + ")
 form <- paste('learning03$starter ~', form)
 form <- as.formula(form)
 
-nn02 <- neuralnet(form, learning03[3:14], hidden = c(10, 10, 10), linear.output = FALSE)
+nn02 <-
+	neuralnet(form,
+			  learning03[3:14],
+			  hidden = c(10, 10, 10),
+			  linear.output = FALSE)
 
 ###############################################################################
 
@@ -211,30 +249,46 @@ print("nn02: based on 2017-2018 and 2016-2017 data")
 ###############################################################################
 
 nn01predictOldGoalie <- compute(nn01, learning02[3:14])
-nn01predictOldGoalie$round <- sapply(nn01predictOldGoalie$net.result, round, digits = 0)
+nn01predictOldGoalie$round <-
+	sapply(nn01predictOldGoalie$net.result, round, digits = 0)
 
-print(paste("2015-2016 prediction (nn01) error rate:", calculateError(learning02$starter, nn01predictOldGoalie$round)))
+print(paste(
+	"2015-2016 prediction (nn01) error rate:",
+	calculateError(learning02$starter, nn01predictOldGoalie$round)
+))
 
 ###############################################################################
 
 nn01predictCurrentGoalie <- compute(nn01, testingData[3:14])
-nn01predictCurrentGoalie$round <- sapply(nn01predictCurrentGoalie$net.result, round, digits = 0)
+nn01predictCurrentGoalie$round <-
+	sapply(nn01predictCurrentGoalie$net.result, round, digits = 0)
 
-print(paste("2018-2019 prediction (nn01) error rate:", calculateError(testingData$starter, nn01predictCurrentGoalie$round)))
+print(paste(
+	"2018-2019 prediction (nn01) error rate:",
+	calculateError(testingData$starter, nn01predictCurrentGoalie$round)
+))
 
 ###############################################################################
 
 nn02predictOldGoalie <- compute(nn02, learning02[3:14])
-nn02predictOldGoalie$round <- sapply(nn02predictOldGoalie$net.result, round, digits = 0)
+nn02predictOldGoalie$round <-
+	sapply(nn02predictOldGoalie$net.result, round, digits = 0)
 
-print(paste("2015-2016 prediction (nn02) error rate:", calculateError(learning02$starter, nn02predictOldGoalie$round)))
+print(paste(
+	"2015-2016 prediction (nn02) error rate:",
+	calculateError(learning02$starter, nn02predictOldGoalie$round)
+))
 
 ###############################################################################
 
 nn02predictCurrentGoalie <- compute(nn02, testingData[3:14])
-nn02predictCurrentGoalie$round <- sapply(nn02predictCurrentGoalie$net.result, round, digits = 0)
+nn02predictCurrentGoalie$round <-
+	sapply(nn02predictCurrentGoalie$net.result, round, digits = 0)
 
-print(paste("2018-2019 prediction (nn02) error rate:", calculateError(testingData$starter, nn02predictCurrentGoalie$round)))
+print(paste(
+	"2018-2019 prediction (nn02) error rate:",
+	calculateError(testingData$starter, nn02predictCurrentGoalie$round)
+))
 
 ###############################################################################
 
