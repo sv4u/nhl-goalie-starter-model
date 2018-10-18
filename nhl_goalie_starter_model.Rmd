@@ -1,0 +1,27 @@
+---
+title: "NHL Goalie Starter Model"
+author: "Sasank Vishnubhatla"
+date: "October 14, 2018"
+runtime: shiny
+---
+
+This model is a very simple neural network model. It is currently based on two years of data (from Corsica). The data being used is:
+
+- Shots Against (SA)
+- Goals Agasint (GA)
+- Save Percentage (Sv)
+- Low Danger Shots Against (LdSA)
+- Low Danger Goals Against (LdGA)
+- Low Danger Save Percentage (LdSv)
+- Mid Danger Shots Against (MdSA)
+- Mid Danger Goals Against (MdGA)
+- Mid Danger Save Percentage (MdSv)
+- High Danger Shots Against (HdSA)
+- High Danger Goals Against (HdGA)
+- High Danger Save Percentage (HdSv)
+
+Before we start with building the neural network, we must first visualize some the important statistics we are using. So, let's first visualize low danger shots against vs low danger shot percentage.
+
+```{r, echo}
+require(ggplot2)
+```

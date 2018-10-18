@@ -20,13 +20,6 @@ data02 <- read.csv("data/goalie_stats_20162017.csv")
 testing <- read.csv("data/goalie_stats_20182019.csv")
 old <- read.csv("data/goalie_stats_20152016.csv")
 
-# Data format:
-# First.Last, Season, Team, GP, TOI, Corsi Against, Fenwick Against, Shots Against,
-#   Goals Against, expected Goals Against, Save Percentage, Fenwick Save Percentagem
-#   expected Save Percentage, delta/adjusted Save Percentage, Low Danger SA, Low Danger GA,
-#   Low Danger sv%, Medium Danger SA, Medium Danger GA, Medium Danger sv%, High Danger SA,
-#   High Danger GA, High Danger sv%, Goals Saved Above Average, GSAA per 30 shots
-
 lowDanger <-
 	data.frame(
 		name = data01["Player"][[1]],
@@ -138,7 +131,7 @@ learning01 <- data.frame(
 	hdsv = data01["HDSv."][[1]]
 )
 
-learning01 <- learning01[complete.cases(learning01), ]
+learning01 <- learning01[complete.cases(learning01),]
 
 features <- names(learning01[3:14])
 form <- paste(features, collapse = " + ")
@@ -189,7 +182,7 @@ learning02 <- data.frame(
 	hdsv = data02["HDSv."][[1]]
 )
 
-learning02 <- learning02[complete.cases(learning02), ]
+learning02 <- learning02[complete.cases(learning02),]
 
 ###############################################################################
 
@@ -239,7 +232,7 @@ testingData <- data.frame(
 	hdsv = testing["HDSv."][[1]]
 )
 
-testingData <- testingData[complete.cases(testingData), ]
+testingData <- testingData[complete.cases(testingData),]
 
 ###############################################################################
 
