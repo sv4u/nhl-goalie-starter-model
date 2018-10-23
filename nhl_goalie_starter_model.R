@@ -203,17 +203,18 @@ nn02 <-
 
 testingStarters = list(rep(0, length(testing$Player)))[[1]]
 testingStarters[4] = 1
-testingStarters[7:10] = 1
-testingStarters[12:15] = 1
-testingStarters[18:19] = 1
-testingStarters[22:23] = 1
-testingStarters[25] = 1
-testingStarters[27:29] = 1
-testingStarters[31:32] = 1
-testingStarters[34] = 1
-testingStarters[41:43] = 1
-testingStarters[45:46] = 1
-testingStarters[54:57] = 1
+testingStarters[8:10] = 1
+testingStarters[13:16] = 1
+testingStarters[19:21] = 1
+testingStarters[25:26] = 1
+testingStarters[28] = 1
+testingStarters[31] = 1
+testingStarters[34:37] = 1
+testingStarters[45:47] = 1
+testingStarters[50:51] = 1
+testingStarters[56] = 1
+testingStarters[59:60] = 1
+testingStarters[62] = 1
 
 testingData <- data.frame(
 	name = testing["Player"][[1]],
@@ -288,3 +289,4 @@ print(paste(
 saveGraph(ldGraph, "images/low-danger.png")
 saveGraph(mdGraph, "images/mid-danger.png")
 saveGraph(hdGraph, "images/high-danger.png")
+
