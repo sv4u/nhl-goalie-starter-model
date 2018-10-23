@@ -20,6 +20,8 @@ This model is a very simple neural network model. It is currently based on two y
 - High Danger Goals Against (HdGA)
 - High Danger Save Percentage (HdSv)
 
+## Visualizing Data
+
 Before we start with building the neural network, we must first visualize some the important statistics we are using. So, let's first visualize danger shots against vs danger shot percentage.
 
 ```{r}
@@ -107,4 +109,190 @@ hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
 		 size = "High Danger Goals Against")
 
 print(hdGraph)
+```
+
+## Neural Network
+
+### Build the Neural Network
+
+To build the neural network, we will use the `neuralnet` package.
+
+```{r}
+require(neuralnet)
+```
+
+Now, we must classify our data in order to train it. So, let's start with the 2017-2018 data.
+
+```{r}
+learningStarter01 <- list(rep(0, length(data01$Player)))[[1]]
+learningStarter01[13:18] = 1
+learningStarter01[24:27] = 1
+learningStarter01[31] = 1
+learningStarter01[33] = 1
+learningStarter01[35] = 1
+learningStarter01[37:39] = 1
+learningStarter01[44:47] = 1
+learningStarter01[57:60] = 1
+learningStarter01[62] = 1
+learningStarter01[64] = 1
+learningStarter01[66] = 1
+learningStarter01[70:71] = 1
+learningStarter01[73] = 1
+learningStarter01[75:76] = 1
+learningStarter01[80] = 1
+```
+
+The code above sets certain goalies as starters and others as backups. If the value of `learningStarter01[i]` is `1`, then the goalie is a starter. Otherwise, thte goalie is a backup.
+
+Now, we can build a dataframe to contain all possible data for our neural network.
+
+```{r}
+learning01 <- data.frame(
+	name = data01["Player"][[1]],
+	starter = learningStarter01,
+	sa = data01["SA"][[1]],
+	ga = data01["GA"][[1]],
+	sv = data01["Sv."][[1]],
+	ldsa = data01["LDSA"][[1]],
+	ldga = data01["LDGA"][[1]],
+	ldsv = data01["LDSv."][[1]],
+	mdsa = data01["MDSA"][[1]],
+	mdga = data01["MDGA"][[1]],
+	mdsv = data01["MDSv."][[1]],
+	hdsa = data01["HDSA"][[1]],
+	hdga = data01["HDGA"][[1]],
+	hdsv = data01["HDSv."][[1]]
+)
+
+learning01 <- learning01[complete.cases(learning01),]
+```
+
+The final line removes goalies who have incomplete data.
+
+Now that we have our data in an organized manner, we can run our neural network function on it.
+
+```{r}
+features <- names(learning01[3:14])
+form <- paste(features, collapse = " + ")
+form <- paste('learning01$starter ~', form)
+form <- as.formula(form)
+
+nn01 <-
+	neuralnet(form,
+			  learning01[3:14],
+			  hidden = c(10, 10, 10),
+			  linear.output = FALSE)
+```
+
+Now with the network made, let's classify the 2016-2017 data to create a secondary model.
+
+```{r}
+learningStarter02 = list(rep(0, length(data02$Player)))[[1]]
+learningStarter02[6] = 1
+learningStarter02[12] = 1
+learningStarter02[14:20] = 1
+learningStarter02[25:28] = 1
+learningStarter02[32] = 1
+learningStarter02[36:37] = 1
+learningStarter02[40:41] = 1
+learningStarter02[49] = 1
+learningStarter02[58] = 1
+learningStarter02[66] = 1
+learningStarter02[69:70] = 1
+learningStarter02[75] = 1
+learningStarter02[77:79] = 1
+learningStarter02[84:86] = 1
+learningStarter02[89] = 1
+learningStarter02[91:92] = 1
+learningStarter02[94] = 1
+
+learning02 <- data.frame(
+	name = data02["Player"][[1]],
+	starter = learningStarter02,
+	sa = data02["SA"][[1]],
+	ga = data02["GA"][[1]],
+	sv = data02["Sv."][[1]],
+	ldsa = data02["LDSA"][[1]],
+	ldga = data02["LDGA"][[1]],
+	ldsv = data02["LDSv."][[1]],
+	mdsa = data02["MDSA"][[1]],
+	mdga = data02["MDGA"][[1]],
+	mdsv = data02["MDSv."][[1]],
+	hdsa = data02["HDSA"][[1]],
+	hdga = data02["HDGA"][[1]],
+	hdsv = data02["HDSv."][[1]]
+)
+
+learning02 <- learning02[complete.cases(learning02),]
+```
+
+Now, let's combine `learning01` with `learning02` and create a new neural network model based on 2 years of data.
+
+```{r}
+learning03 = rbind(learning01, learning02)
+
+features <- names(learning03[3:14])
+form <- paste(features, collapse = " + ")
+form <- paste('learning03$starter ~', form)
+form <- as.formula(form)
+
+nn02 <-
+	neuralnet(form,
+			  learning03[3:14],
+			  hidden = c(10, 10, 10),
+			  linear.output = FALSE)
+```
+
+Now with our two neural networks (`nn01`, `nn02`), we can see how accurate it is. The testing data we use is the 2018-2019 season data.
+
+```{r}
+testingStarters = list(rep(0, length(testing$Player)))[[1]]
+testingStarters[4] = 1
+testingStarters[7:10] = 1
+testingStarters[12:15] = 1
+testingStarters[18:19] = 1
+testingStarters[22:23] = 1
+testingStarters[25] = 1
+testingStarters[27:29] = 1
+testingStarters[31:32] = 1
+testingStarters[34] = 1
+testingStarters[41:43] = 1
+testingStarters[45:46] = 1
+testingStarters[54:57] = 1
+
+testingData <- data.frame(
+	name = testing["Player"][[1]],
+	starter = testingStarters,
+	sa = testing["SA"][[1]],
+	ga = testing["GA"][[1]],
+	sv = testing["Sv."][[1]],
+	ldsa = testing["LDSA"][[1]],
+	ldga = testing["LDGA"][[1]],
+	ldsv = testing["LDSv."][[1]],
+	mdsa = testing["MDSA"][[1]],
+	mdga = testing["MDGA"][[1]],
+	mdsv = testing["MDSv."][[1]],
+	hdsa = testing["HDSA"][[1]],
+	hdga = testing["HDGA"][[1]],
+	hdsv = testing["HDSv."][[1]]
+)
+
+testingData <- testingData[complete.cases(testingData),]
+```
+
+### Test the Neural Network
+
+To test the network, we need an error function.
+
+```{r}
+calculateError <- function(actual, predicted) {
+	if (length(actual) != length(predicted))
+		return ~ 1.0
+	total = length(actual) * 1.0
+	error = 0.0
+	for (i in 1:length(actual))
+		if (predicted[i] - actual[i] != 0)
+			error = error + 1.0
+	return (error / total)
+}
 ```
