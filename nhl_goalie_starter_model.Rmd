@@ -296,3 +296,27 @@ calculateError <- function(actual, predicted) {
 	return (error / total)
 }
 ```
+
+Now, we can run our testing data through our neural networks.
+
+```{r}
+nn01predictCurrentGoalie <- compute(nn01, testingData[3:14])
+nn01predictCurrentGoalie$round <-
+	sapply(nn01predictCurrentGoalie$net.result, round, digits = 0)
+
+print(paste(
+	"2018-2019 prediction (nn01) error rate:",
+	calculateError(testingData$starter, nn01predictCurrentGoalie$round)
+))
+
+nn02predictCurrentGoalie <- compute(nn02, testingData[3:14])
+nn02predictCurrentGoalie$round <-
+	sapply(nn02predictCurrentGoalie$net.result, round, digits = 0)
+
+print(paste(
+	"2018-2019 prediction (nn02) error rate:",
+	calculateError(testingData$starter, nn02predictCurrentGoalie$round)
+))
+```
+
+Due to the small data size, we see that we have a very high error rate. Once we get more data, the error rate should decrease.
