@@ -17,7 +17,7 @@ library(neuralnet)
 
 data01 <- read.csv("data/goalie_stats_20172018.csv")
 data02 <- read.csv("data/goalie_stats_20162017.csv")
-testing <- read.csv("data/goalie_stats_20182019.csv")
+current <- read.csv("data/goalie_stats_20182019.csv")
 old <- read.csv("data/goalie_stats_20152016.csv")
 
 lowDanger <-
@@ -201,39 +201,39 @@ nn02 <-
 
 ###############################################################################
 
-testingStarters = list(rep(0, length(testing$Player)))[[1]]
-testingStarters[4] = 1
-testingStarters[8:10] = 1
-testingStarters[13:16] = 1
-testingStarters[19:21] = 1
-testingStarters[25:26] = 1
-testingStarters[28] = 1
-testingStarters[31] = 1
-testingStarters[34:37] = 1
-testingStarters[45:47] = 1
-testingStarters[50:51] = 1
-testingStarters[56] = 1
-testingStarters[59:60] = 1
-testingStarters[62] = 1
+currentStarters = list(rep(0, length(current$Player)))[[1]]
+currentStarters[4] = 1
+currentStarters[8:10] = 1
+currentStarters[13:16] = 1
+currentStarters[19:21] = 1
+currentStarters[25:26] = 1
+currentStarters[28] = 1
+currentStarters[31] = 1
+currentStarters[34:37] = 1
+currentStarters[45:47] = 1
+currentStarters[50:51] = 1
+currentStarters[56] = 1
+currentStarters[59:60] = 1
+currentStarters[62] = 1
 
-testingData <- data.frame(
-	name = testing["Player"][[1]],
-	starter = testingStarters,
-	sa = testing["SA"][[1]],
-	ga = testing["GA"][[1]],
-	sv = testing["Sv."][[1]],
-	ldsa = testing["LDSA"][[1]],
-	ldga = testing["LDGA"][[1]],
-	ldsv = testing["LDSv."][[1]],
-	mdsa = testing["MDSA"][[1]],
-	mdga = testing["MDGA"][[1]],
-	mdsv = testing["MDSv."][[1]],
-	hdsa = testing["HDSA"][[1]],
-	hdga = testing["HDGA"][[1]],
-	hdsv = testing["HDSv."][[1]]
+currentData <- data.frame(
+	name = current["Player"][[1]],
+	starter = currentStarters,
+	sa = current["SA"][[1]],
+	ga = current["GA"][[1]],
+	sv = current["Sv."][[1]],
+	ldsa = current["LDSA"][[1]],
+	ldga = current["LDGA"][[1]],
+	ldsv = current["LDSv."][[1]],
+	mdsa = current["MDSA"][[1]],
+	mdga = current["MDGA"][[1]],
+	mdsv = current["MDSv."][[1]],
+	hdsa = current["HDSA"][[1]],
+	hdga = current["HDGA"][[1]],
+	hdsv = current["HDSv."][[1]]
 )
 
-testingData <- testingData[complete.cases(testingData),]
+currentData <- currentData[complete.cases(currentData),]
 
 ###############################################################################
 
@@ -253,13 +253,13 @@ print(paste(
 
 ###############################################################################
 
-nn01predictCurrentGoalie <- compute(nn01, testingData[3:14])
+nn01predictCurrentGoalie <- compute(nn01, currentData[3:14])
 nn01predictCurrentGoalie$round <-
 	sapply(nn01predictCurrentGoalie$net.result, round, digits = 0)
 
 print(paste(
 	"2018-2019 prediction (nn01) error rate:",
-	calculateError(testingData$starter, nn01predictCurrentGoalie$round)
+	calculateError(currentData$starter, nn01predictCurrentGoalie$round)
 ))
 
 ###############################################################################
@@ -275,13 +275,13 @@ print(paste(
 
 ###############################################################################
 
-nn02predictCurrentGoalie <- compute(nn02, testingData[3:14])
+nn02predictCurrentGoalie <- compute(nn02, currentData[3:14])
 nn02predictCurrentGoalie$round <-
 	sapply(nn02predictCurrentGoalie$net.result, round, digits = 0)
 
 print(paste(
 	"2018-2019 prediction (nn02) error rate:",
-	calculateError(testingData$starter, nn02predictCurrentGoalie$round)
+	calculateError(currentData$starter, nn02predictCurrentGoalie$round)
 ))
 
 ###############################################################################
@@ -290,3 +290,27 @@ saveGraph(ldGraph, "images/low-danger.png")
 saveGraph(mdGraph, "images/mid-danger.png")
 saveGraph(hdGraph, "images/high-danger.png")
 
+###############################################################################
+murrayRaw <- filter(current, current$Player == "MATT.MURRAY")
+murrayFrame <- data.frame(
+	sa = murrayRaw["SA"][[1]],
+	ga = murrayRaw["GA"][[1]],
+	sv = murrayRaw["Sv."][[1]],
+	ldsa = murrayRaw["LDSA"][[1]],
+	ldga = murrayRaw["LDGA"][[1]],
+	ldsv = murrayRaw["LDSv."][[1]],
+	mdsa = murrayRaw["MDSA"][[1]],
+	mdga = murrayRaw["MDGA"][[1]],
+	mdsv = murrayRaw["MDSv."][[1]],
+	hdsa = murrayRaw["HDSA"][[1]],
+	hdga = murrayRaw["HDGA"][[1]],
+	hdsv = murrayRaw["HDSv."][[1]]
+)
+
+murrayPrediction01 <- compute(nn01, murrayFrame)
+print(paste("Percent Chance as Starter (nn01):",
+			murrayPrediction01$net.result * 100))
+
+murrayPrediction02 <- compute(nn02, murrayFrame)
+print(paste("Percent Chance as Starter (nn02):",
+			murrayPrediction02$net.result * 100))
