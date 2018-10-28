@@ -8,10 +8,10 @@ library(neuralnet)
 
 ###############################################################################
 
-#this.dir <- dirname(parent.frame(2)$ofile)
-#setwd(this.dir)
+this.dir <- dirname(parent.frame(2)$ofile)
+setwd(this.dir)
 
-#rm(list = ls())
+rm(list = ls())
 
 ###############################################################################
 
@@ -97,26 +97,51 @@ calculateError <- function(actual, predicted) {
 
 ###############################################################################
 
+print("nn01: based on 2017-2018 data")
+print("nn02: based on 2017-2018 and 2016-2017 data")
+
+###############################################################################
+
 learningStarter01 <- list(rep(0, length(data01$Player)))[[1]]
-learningStarter01[13:18] = 1
-learningStarter01[24:27] = 1
-learningStarter01[31] = 1
-learningStarter01[33] = 1
-learningStarter01[35] = 1
-learningStarter01[37:39] = 1
-learningStarter01[44:47] = 1
-learningStarter01[57:60] = 1
-learningStarter01[62] = 1
-learningStarter01[64] = 1
-learningStarter01[66] = 1
-learningStarter01[70:71] = 1
-learningStarter01[73] = 1
-learningStarter01[75:76] = 1
-learningStarter01[80] = 1
+learningStarter01[which(data01$Player == "ANDREI.VASILEVSKIY")] = 1
+learningStarter01[which(data01$Player == "CAM.TALBOT")] = 1
+learningStarter01[which(data01$Player == "CONNOR.HELLEBUYCK")] = 1
+learningStarter01[which(data01$Player == "FREDERIK.ANDERSON")] = 1
+learningStarter01[which(data01$Player == "SERGEI.BOBROVSKY")] = 1
+learningStarter01[which(data01$Player == "JONATHAN.QUICK")] = 1
+learningStarter01[which(data01$Player == "HENRIK.LUNDQVIST")] = 1
+learningStarter01[which(data01$Player == "DEVAN.DUBNYK")] = 1
+learningStarter01[which(data01$Player == "JOHN.GIBSON")] = 1
+learningStarter01[which(data01$Player == "MARTIN.JONES")] = 1
+learningStarter01[which(data01$Player == "JACOB.MARKSTROM")] = 1
+learningStarter01[which(data01$Player == "JAKE.ALLEN")] = 1
+learningStarter01[which(data01$Player == "JIMMY.HOWARD")] = 1
+learningStarter01[which(data01$Player == "PEKKA.RINNE")] = 1
+learningStarter01[which(data01$Player == "CRAIG.ANDERSON")] = 1
+learningStarter01[which(data01$Player == "MIKE.SMITH")] = 1
+learningStarter01[which(data01$Player == "BRADEN.HOLTBY")] = 1
+learningStarter01[which(data01$Player == "JAROSLAV.HALAK")] = 1
+learningStarter01[which(data01$Player == "TUUKKA.RASK")] = 1
+learningStarter01[which(data01$Player == "BEN.BISHOP")] = 1
+learningStarter01[which(data01$Player == "ROBIN.LEHNER")] = 1
+learningStarter01[which(data01$Player == "SEMYON.VARLAMOV")] = 1
+learningStarter01[which(data01$Player == "CAREY.PRICE")] = 1
+learningStarter01[which(data01$Player == "ANTTI.RAANTA")] = 1
+learningStarter01[which(data01$Player == "MARC-ANDRE.FLEURY")] = 1
+learningStarter01[which(data01$Player == "JAMES.REIMER")] = 1
+learningStarter01[which(data01$Player == "BRIAN.ELLIOT")] = 1
+learningStarter01[which(data01$Player == "CAM.WARD")] = 1
+learningStarter01[which(data01$Player == "SCOTT.DARLING")] = 1
+learningStarter01[which(data01$Player == "KEITH.KINKAID")] = 1
+learningStarter01[which(data01$Player == "CORY.SCHNEIDER")] = 1
+learningStarter01[which(data01$Player == "PETR.MRAZEK")] = 1
+learningStarter01[which(data01$Player == "MATTHEW.MURRAY")] = 1
+learningStarter01[which(data01$Player == "MATT.MURRAY")] = 1
 
 learning01 <- data.frame(
 	name = data01["Player"][[1]],
 	starter = learningStarter01,
+	gp = data01["GP"][[1]],
 	sa = data01["SA"][[1]],
 	ga = data01["GA"][[1]],
 	sv = data01["Sv."][[1]],
@@ -133,41 +158,59 @@ learning01 <- data.frame(
 
 learning01 <- learning01[complete.cases(learning01),]
 
-features <- names(learning01[3:14])
+features <- names(learning01[3:15])
 form <- paste(features, collapse = " + ")
 form <- paste('learning01$starter ~', form)
 form <- as.formula(form)
 
 nn01 <-
 	neuralnet(form,
-			  learning01[3:14],
-			  hidden = c(10, 10, 10),
-			  linear.output = FALSE)
+			  learning01[3:15],
+			  hidden = c(5, 5, 5, 5, 5, 5, 5, 5, 5, 5),
+			  linear.output = FALSE,
+			  algorithm = "rprop-",
+			  learningrate = 0.05)
 
 ###############################################################################
 
 learningStarter02 = list(rep(0, length(data02$Player)))[[1]]
-learningStarter02[6] = 1
-learningStarter02[12] = 1
-learningStarter02[14:20] = 1
-learningStarter02[25:28] = 1
-learningStarter02[32] = 1
-learningStarter02[36:37] = 1
-learningStarter02[40:41] = 1
-learningStarter02[49] = 1
-learningStarter02[58] = 1
-learningStarter02[66] = 1
-learningStarter02[69:70] = 1
-learningStarter02[75] = 1
-learningStarter02[77:79] = 1
-learningStarter02[84:86] = 1
-learningStarter02[89] = 1
-learningStarter02[91:92] = 1
-learningStarter02[94] = 1
+learningStarter02[which(data02$Player == "CAM.TALBOT")] = 1
+learningStarter02[which(data02$Player == "FREDERIK.ANDERSON")] = 1
+learningStarter02[which(data02$Player == "DEVAN.DUBNYK")] = 1
+learningStarter02[which(data02$Player == "TUUKKA.RASK")] = 1
+learningStarter02[which(data02$Player == "MARTIN.JONES")] = 1
+learningStarter02[which(data02$Player == "BRADEN.HOLTBY")] = 1
+learningStarter02[which(data02$Player == "SERGEI.BOBROVSKY")] = 1
+learningStarter02[which(data02$Player == "CAREY.PRICE")] = 1
+learningStarter02[which(data02$Player == "CAM.WARD")] = 1
+learningStarter02[which(data02$Player == "JAKE.ALLEN")] = 1
+learningStarter02[which(data02$Player == "PEKKA.RINNE")] = 1
+learningStarter02[which(data02$Player == "CORY.SCHNEIDER")] = 1
+learningStarter02[which(data02$Player == "PETER.BUDAJ")] = 1
+learningStarter02[which(data02$Player == "KARI.LEHTONEN")] = 1
+learningStarter02[which(data02$Player == "ROBIN.LEHNER")] = 1
+learningStarter02[which(data02$Player == "STEVE.MASON")] = 1
+learningStarter02[which(data02$Player == "HENRIK.LUNDQVIST")] = 1
+learningStarter02[which(data02$Player == "CONNOR.HELLEBUYCK")] = 1
+learningStarter02[which(data02$Player == "COREY.CRAWFORD")] = 1
+learningStarter02[which(data02$Player == "MIKE.SMITH")] = 1
+learningStarter02[which(data02$Player == "RYAN.MILLER")] = 1
+learningStarter02[which(data02$Player == "JOHN.GIBSON")] = 1
+learningStarter02[which(data02$Player == "THOMAS.GREISS")] = 1
+learningStarter02[which(data02$Player == "ANDREI.VASILEVSKIY")] = 1
+learningStarter02[which(data02$Player == "CALVIN.PICKARD")] = 1
+learningStarter02[which(data02$Player == "PETR.MRAZEK")] = 1
+learningStarter02[which(data02$Player == "BRIAN.ELLIOT")] = 1
+learningStarter02[which(data02$Player == "MATTHEW.MURRAY")] = 1
+learningStarter02[which(data02$Player == "JAMES.REIMER")] = 1
+learningStarter02[which(data02$Player == "MIKE.CONDON")] = 1
+learningStarter02[which(data02$Player == "CRAIG.ANDERSON")] = 1
+learningStarter02[which(data02$Player == "ROBERTO.LUONGO")] = 1
 
 learning02 <- data.frame(
 	name = data02["Player"][[1]],
 	starter = learningStarter02,
+	gp = data02["GP"][[1]],
 	sa = data02["SA"][[1]],
 	ga = data02["GA"][[1]],
 	sv = data02["Sv."][[1]],
@@ -186,39 +229,44 @@ learning02 <- learning02[complete.cases(learning02),]
 
 ###############################################################################
 
-learning03 = rbind(learning01, learning02)
-
-features <- names(learning03[3:14])
-form <- paste(features, collapse = " + ")
-form <- paste('learning03$starter ~', form)
-form <- as.formula(form)
-
-nn02 <-
-	neuralnet(form,
-			  learning03[3:14],
-			  hidden = c(10, 10, 10),
-			  linear.output = FALSE)
-
-###############################################################################
-
 currentStarters = list(rep(0, length(current$Player)))[[1]]
-currentStarters[4] = 1
-currentStarters[8:10] = 1
-currentStarters[13:16] = 1
-currentStarters[19:21] = 1
-currentStarters[25:26] = 1
-currentStarters[28] = 1
-currentStarters[31] = 1
-currentStarters[34:37] = 1
-currentStarters[45:47] = 1
-currentStarters[50:51] = 1
-currentStarters[56] = 1
-currentStarters[59:60] = 1
-currentStarters[62] = 1
+currentStarters[which(current$Player == "JOHN.GIBSON")] = 1
+currentStarters[which(current$Player == "ANTTI.RAANTA")] = 1
+currentStarters[which(current$Player == "TUUKKA.RASK")] = 1
+currentStarters[which(current$Player == "CARTER.HUTTON")] = 1
+currentStarters[which(current$Player == "MIKE.SMITH")] = 1
+currentStarters[which(current$Player == "COREY.CRAWFORD")] = 1
+currentStarters[which(current$Player == "SEMYON.VARLAMOV")] = 1
+currentStarters[which(current$Player == "SERGEI.BOBROVSKY")] = 1
+currentStarters[which(current$Player == "BEN.BISHOP")] = 1
+currentStarters[which(current$Player == "JIMMY.HOWARD")] = 1
+currentStarters[which(current$Player == "CAM.TALBOT")] = 1
+currentStarters[which(current$Player == "ROBERTO.LUONGO")] = 1
+currentStarters[which(current$Player == "JAMES.REIMER")] = 1
+currentStarters[which(current$Player == "JONATHAN.QUICK")] = 1
+currentStarters[which(current$Player == "DEVAN.DUBNYK")] = 1
+currentStarters[which(current$Player == "CAREY.PRICE")] = 1
+currentStarters[which(current$Player == "PEKKA.RINNE")] = 1
+currentStarters[which(current$Player == "JUUSE.SAROS")] = 1
+currentStarters[which(current$Player == "KEITH.KINKAID")] = 1
+currentStarters[which(current$Player == "CORY.SCHNEIDER")] = 1
+currentStarters[which(current$Player == "HENRIK.LUNDQVIST")] = 1
+currentStarters[which(current$Player == "CRAIG.ANDERSON")] = 1
+currentStarters[which(current$Player == "BRAIN.ELLIOT")] = 1
+currentStarters[which(current$Player == "MATT.MURRAY")] = 1
+currentStarters[which(current$Player == "JAKE.ALLEN")] = 1
+currentStarters[which(current$Player == "MARTIN.JONES")] = 1
+currentStarters[which(current$Player == "ANDREI.VASILEVSKIY")] = 1
+currentStarters[which(current$Player == "FREDERIK.ANDERSON")] = 1
+currentStarters[which(current$Player == "ANDERS.NILSSON")] = 1
+currentStarters[which(current$Player == "MARC-ANDRE.FLEURY")] = 1
+currentStarters[which(current$Player == "BRADEN.HOLTBY")] = 1
+currentStarters[which(current$Player == "CONNER.HELLEBUYCK")] = 1
 
 currentData <- data.frame(
 	name = current["Player"][[1]],
 	starter = currentStarters,
+	gp = current["GP"][[1]],
 	sa = current["SA"][[1]],
 	ga = current["GA"][[1]],
 	sv = current["Sv."][[1]],
@@ -237,12 +285,7 @@ currentData <- currentData[complete.cases(currentData),]
 
 ###############################################################################
 
-print("nn01: based on 2017-2018 data")
-print("nn02: based on 2017-2018 and 2016-2017 data")
-
-###############################################################################
-
-nn01predictOldGoalie <- compute(nn01, learning02[3:14])
+nn01predictOldGoalie <- compute(nn01, learning02[3:15])
 nn01predictOldGoalie$round <-
 	sapply(nn01predictOldGoalie$net.result, round, digits = 0)
 
@@ -253,18 +296,24 @@ print(paste(
 
 ###############################################################################
 
-nn01predictCurrentGoalie <- compute(nn01, currentData[3:14])
-nn01predictCurrentGoalie$round <-
-	sapply(nn01predictCurrentGoalie$net.result, round, digits = 0)
+learning03 = rbind(learning01, learning02)
 
-print(paste(
-	"2018-2019 prediction (nn01) error rate:",
-	calculateError(currentData$starter, nn01predictCurrentGoalie$round)
-))
+features <- names(learning03[3:15])
+form <- paste(features, collapse = " + ")
+form <- paste('learning03$starter ~', form)
+form <- as.formula(form)
+
+nn02 <-
+	neuralnet(form,
+			  learning03[3:15],
+			  hidden = c(5, 5, 5, 5, 5, 5, 5, 5, 5, 5),
+			  linear.output = FALSE,
+			  algorithm = "rprop-",
+			  learningrate = 0.05)
 
 ###############################################################################
 
-nn02predictOldGoalie <- compute(nn02, learning02[3:14])
+nn02predictOldGoalie <- compute(nn02, learning02[3:15])
 nn02predictOldGoalie$round <-
 	sapply(nn02predictOldGoalie$net.result, round, digits = 0)
 
@@ -275,24 +324,15 @@ print(paste(
 
 ###############################################################################
 
-nn02predictCurrentGoalie <- compute(nn02, currentData[3:14])
-nn02predictCurrentGoalie$round <-
-	sapply(nn02predictCurrentGoalie$net.result, round, digits = 0)
-
-print(paste(
-	"2018-2019 prediction (nn02) error rate:",
-	calculateError(currentData$starter, nn02predictCurrentGoalie$round)
-))
-
-###############################################################################
-
 saveGraph(ldGraph, "images/low-danger.png")
 saveGraph(mdGraph, "images/mid-danger.png")
 saveGraph(hdGraph, "images/high-danger.png")
 
 ###############################################################################
+
 murrayRaw <- filter(current, current$Player == "MATT.MURRAY")
 murrayFrame <- data.frame(
+	gp = murrayRaw["GP"][[1]],
 	sa = murrayRaw["SA"][[1]],
 	ga = murrayRaw["GA"][[1]],
 	sv = murrayRaw["Sv."][[1]],
@@ -309,16 +349,17 @@ murrayFrame <- data.frame(
 
 murrayPrediction01 <- compute(nn01, murrayFrame)
 print(paste("Percent Chance as Starter [Murray] (nn01):",
-			murrayPrediction01$net.result * 100))
+			murrayPrediction01$net.result))
 
 murrayPrediction02 <- compute(nn02, murrayFrame)
 print(paste("Percent Chance as Starter [Murray] (nn02):",
-			murrayPrediction02$net.result * 100))
+			murrayPrediction02$net.result))
 
 ###############################################################################
 
 raskRaw <- filter(current, current$Player == "TUUKKA.RASK")
 raskFrame <- data.frame(
+	gp = raskRaw["GP"][[1]],
 	sa = raskRaw["SA"][[1]],
 	ga = raskRaw["GA"][[1]],
 	sv = raskRaw["Sv."][[1]],
@@ -335,15 +376,16 @@ raskFrame <- data.frame(
 
 raskPrediction01 <- compute(nn01, raskFrame)
 print(paste("Percent Chance as Starter [Rask] (nn01):",
-			raskPrediction01$net.result * 100))
+			raskPrediction01$net.result))
 raskPrediction02 <- compute(nn02, raskFrame)
 print(paste("Percent Chance as Starter [Rask] (nn02):",
-			raskPrediction02$net.result * 100))
+			raskPrediction02$net.result))
 
 ###############################################################################
 
 condonRaw <- filter(current, current$Player == "MIKE.CONDON")
 condonFrame <- data.frame(
+	gp = condonRaw["GP"][[1]],
 	sa = condonRaw["SA"][[1]],
 	ga = condonRaw["GA"][[1]],
 	sv = condonRaw["Sv."][[1]],
@@ -360,7 +402,7 @@ condonFrame <- data.frame(
 
 condonPrediction01 <- compute(nn01, condonFrame)
 print(paste("Percent Chance as Starter [Condon] (nn01):",
-			condonPrediction01$net.result * 100))
+			condonPrediction01$net.result))
 condonPrediction02 <- compute(nn02, condonFrame)
 print(paste("Percent Chance as Starter [Condon] (nn02):",
-			condonPrediction02$net.result * 100))
+			condonPrediction02$net.result))
