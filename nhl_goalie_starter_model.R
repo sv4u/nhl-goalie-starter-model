@@ -308,9 +308,59 @@ murrayFrame <- data.frame(
 )
 
 murrayPrediction01 <- compute(nn01, murrayFrame)
-print(paste("Percent Chance as Starter (nn01):",
+print(paste("Percent Chance as Starter [Murray] (nn01):",
 			murrayPrediction01$net.result * 100))
 
 murrayPrediction02 <- compute(nn02, murrayFrame)
-print(paste("Percent Chance as Starter (nn02):",
+print(paste("Percent Chance as Starter [Murray] (nn02):",
 			murrayPrediction02$net.result * 100))
+
+###############################################################################
+
+raskRaw <- filter(current, current$Player == "TUUKKA.RASK")
+raskFrame <- data.frame(
+	sa = raskRaw["SA"][[1]],
+	ga = raskRaw["GA"][[1]],
+	sv = raskRaw["Sv."][[1]],
+	ldsa = raskRaw["LDSA"][[1]],
+	ldga = raskRaw["LDGA"][[1]],
+	ldsv = raskRaw["LDSv."][[1]],
+	mdsa = raskRaw["MDSA"][[1]],
+	mdga = raskRaw["MDGA"][[1]],
+	mdsv = raskRaw["MDSv."][[1]],
+	hdsa = raskRaw["HDSA"][[1]],
+	hdga = raskRaw["HDGA"][[1]],
+	hdsv = raskRaw["HDSv."][[1]]
+)
+
+raskPrediction01 <- compute(nn01, raskFrame)
+print(paste("Percent Chance as Starter [Rask] (nn01):",
+			raskPrediction01$net.result * 100))
+raskPrediction02 <- compute(nn02, raskFrame)
+print(paste("Percent Chance as Starter [Rask] (nn02):",
+			raskPrediction02$net.result * 100))
+
+###############################################################################
+
+condonRaw <- filter(current, current$Player == "MIKE.CONDON")
+condonFrame <- data.frame(
+	sa = condonRaw["SA"][[1]],
+	ga = condonRaw["GA"][[1]],
+	sv = condonRaw["Sv."][[1]],
+	ldsa = condonRaw["LDSA"][[1]],
+	ldga = condonRaw["LDGA"][[1]],
+	ldsv = condonRaw["LDSv."][[1]],
+	mdsa = condonRaw["MDSA"][[1]],
+	mdga = condonRaw["MDGA"][[1]],
+	mdsv = condonRaw["MDSv."][[1]],
+	hdsa = condonRaw["HDSA"][[1]],
+	hdga = condonRaw["HDGA"][[1]],
+	hdsv = condonRaw["HDSv."][[1]]
+)
+
+condonPrediction01 <- compute(nn01, condonFrame)
+print(paste("Percent Chance as Starter [Condon] (nn01):",
+			condonPrediction01$net.result * 100))
+condonPrediction02 <- compute(nn02, condonFrame)
+print(paste("Percent Chance as Starter [Condon] (nn02):",
+			condonPrediction02$net.result * 100))

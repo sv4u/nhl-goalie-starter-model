@@ -245,6 +245,8 @@ nn02 <-
 
 Now with our two neural networks (`nn01`, `nn02`), we can try and determine if teams are using the right goalie as a starter.
 
+## Determining if Matt Murray is a starter
+
 Let's start with looking at the Pittsburgh Penguins. Currently, their starting goalie is Matt Murray. However, Murray's stats as of October 25 do not look like the numbers of a two-time Stanley Cup winner: 3-1 (W-L), 3.95 goals against average, and 89.3% save percentage. Using our neural network, let's see if he should be the starter:
 
 ```{r}
@@ -263,13 +265,59 @@ murrayFrame <- data.frame(
 	hdga = murrayRaw["HDGA"][[1]],
 	hdsv = murrayRaw["HDSv."][[1]]
 )
-murrayFrame
 
 murrayPrediction01 <- compute(nn01, murrayFrame)
-murrayPrediction01$net.result
-
 murrayPrediction02 <- compute(nn02, murrayFrame)
-murrayPrediction02$net.result
 ```
 
-Now with the predictions, we can see if Matt Murray has been good enough to be a starter this year.
+Now with the predictions, we can see if Matt Murray has been good enough to be a starter this year. Murray seems to have been at the level of a backup.
+
+## Difference between established starters and established backups
+
+I personally think it is valuable  to now consider Murray's numbers to an established starter and to an established backup. For the established starter, I've chosen Tuuka Rask. For the established backup, I believe Mike Condon is an established backup.
+
+```{r}
+raskRaw <- filter(current, current$Player == "TUUKKA.RASK")
+raskFrame <- data.frame(
+	sa = raskRaw["SA"][[1]],
+	ga = raskRaw["GA"][[1]],
+	sv = raskRaw["Sv."][[1]],
+	ldsa = raskRaw["LDSA"][[1]],
+	ldga = raskRaw["LDGA"][[1]],
+	ldsv = raskRaw["LDSv."][[1]],
+	mdsa = raskRaw["MDSA"][[1]],
+	mdga = raskRaw["MDGA"][[1]],
+	mdsv = raskRaw["MDSv."][[1]],
+	hdsa = raskRaw["HDSA"][[1]],
+	hdga = raskRaw["HDGA"][[1]],
+	hdsv = raskRaw["HDSv."][[1]]
+)
+
+raskPrediction01 <- compute(nn01, raskFrame)
+raskPrediction02 <- compute(nn02, raskFrame)
+```
+
+Now for Mike Condon.
+
+```{r}
+condonRaw <- filter(current, current$Player == "MIKE.CONDON")
+condonFrame <- data.frame(
+	sa = condonRaw["SA"][[1]],
+	ga = condonRaw["GA"][[1]],
+	sv = condonRaw["Sv."][[1]],
+	ldsa = condonRaw["LDSA"][[1]],
+	ldga = condonRaw["LDGA"][[1]],
+	ldsv = condonRaw["LDSv."][[1]],
+	mdsa = condonRaw["MDSA"][[1]],
+	mdga = condonRaw["MDGA"][[1]],
+	mdsv = condonRaw["MDSv."][[1]],
+	hdsa = condonRaw["HDSA"][[1]],
+	hdga = condonRaw["HDGA"][[1]],
+	hdsv = condonRaw["HDSv."][[1]]
+)
+
+condonPrediction01 <- compute(nn01, condonFrame)
+condonPrediction02 <- compute(nn02, condonFrame)
+```
+
+Now the prediction for Rask leaves him at a 97% percent chance, compared to Condon's of 14% percent.
