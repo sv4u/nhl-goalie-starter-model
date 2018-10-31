@@ -139,21 +139,21 @@ learningStarter01[which(data01$Player == "MATTHEW.MURRAY")] = 1
 learningStarter01[which(data01$Player == "MATT.MURRAY")] = 1
 
 learning01 <- data.frame(
-	name = data01["Player"][[1]],
+	name = data01["Player"],
 	starter = learningStarter01,
-	gp = data01["GP"][[1]],
-	sa = data01["SA"][[1]],
-	ga = data01["GA"][[1]],
-	sv = data01["Sv."][[1]],
-	ldsa = data01["LDSA"][[1]],
-	ldga = data01["LDGA"][[1]],
-	ldsv = data01["LDSv."][[1]],
-	mdsa = data01["MDSA"][[1]],
-	mdga = data01["MDGA"][[1]],
-	mdsv = data01["MDSv."][[1]],
-	hdsa = data01["HDSA"][[1]],
-	hdga = data01["HDGA"][[1]],
-	hdsv = data01["HDSv."][[1]]
+	gp = data01["GP"] / max(data01["GP"]),
+	sa = data01["SA"] / max(data01["SA"]),
+	ga = data01["GA"] / max(data01["GA"]),
+	sv = data01["Sv."] / max(data01["Sv."]),
+	ldsa = data01["LDSA"] / max(data01["LDSA"]),
+	ldga = data01["LDGA"] / max(data01["LDGA"]),
+	ldsv = data01["LDSv."] / max(data01["LDSv."]),
+	mdsa = data01["MDSA"] / max(data01["MDSA"]),
+	mdga = data01["MDGA"] / max(data01["MDSA"]),
+	mdsv = data01["MDSv."] / max(data01["MDSv."]),
+	hdsa = data01["HDSA"] / max(data01["HDSA"]),
+	hdga = data01["HDGA"] / max(data01["HDGA"]),
+	hdsv = data01["HDSv."] / max(data01["HDSv."])
 )
 
 learning01 <- learning01[complete.cases(learning01),]
@@ -208,21 +208,21 @@ learningStarter02[which(data02$Player == "CRAIG.ANDERSON")] = 1
 learningStarter02[which(data02$Player == "ROBERTO.LUONGO")] = 1
 
 learning02 <- data.frame(
-	name = data02["Player"][[1]],
+	name = data02["Player"],
 	starter = learningStarter02,
-	gp = data02["GP"][[1]],
-	sa = data02["SA"][[1]],
-	ga = data02["GA"][[1]],
-	sv = data02["Sv."][[1]],
-	ldsa = data02["LDSA"][[1]],
-	ldga = data02["LDGA"][[1]],
-	ldsv = data02["LDSv."][[1]],
-	mdsa = data02["MDSA"][[1]],
-	mdga = data02["MDGA"][[1]],
-	mdsv = data02["MDSv."][[1]],
-	hdsa = data02["HDSA"][[1]],
-	hdga = data02["HDGA"][[1]],
-	hdsv = data02["HDSv."][[1]]
+	gp = data02["GP"] / max(data02["GP"]),
+	sa = data02["SA"] / max(data02["SA"]),
+	ga = data02["GA"] / max(data02["GA"]),
+	sv = data02["Sv."] / max(data02["Sv."]),
+	ldsa = data02["LDSA"] / max(data02["LDSA"]),
+	ldga = data02["LDGA"] / max(data02["LDGA"]),
+	ldsv = data02["LDSv."] / max(data02["LDSv."]),
+	mdsa = data02["MDSA"] / max(data02["MDSA"]),
+	mdga = data02["MDGA"] / max(data02["MDSA"]),
+	mdsv = data02["MDSv."] / max(data02["MDSv."]),
+	hdsa = data02["HDSA"] / max(data02["HDSA"]),
+	hdga = data02["HDGA"] / max(data02["HDGA"]),
+	hdsv = data02["HDSv."] / max(data02["HDSv."])
 )
 
 learning02 <- learning02[complete.cases(learning02),]
@@ -264,21 +264,21 @@ currentStarters[which(current$Player == "BRADEN.HOLTBY")] = 1
 currentStarters[which(current$Player == "CONNER.HELLEBUYCK")] = 1
 
 currentData <- data.frame(
-	name = current["Player"][[1]],
+	name = current["Player"],
 	starter = currentStarters,
-	gp = current["GP"][[1]],
-	sa = current["SA"][[1]],
-	ga = current["GA"][[1]],
-	sv = current["Sv."][[1]],
-	ldsa = current["LDSA"][[1]],
-	ldga = current["LDGA"][[1]],
-	ldsv = current["LDSv."][[1]],
-	mdsa = current["MDSA"][[1]],
-	mdga = current["MDGA"][[1]],
-	mdsv = current["MDSv."][[1]],
-	hdsa = current["HDSA"][[1]],
-	hdga = current["HDGA"][[1]],
-	hdsv = current["HDSv."][[1]]
+	gp = current["GP"] / max(current["GP"]),
+	sa = current["SA"] / max(current["SA"]),
+	ga = current["GA"] / max(current["GA"]),
+	sv = current["Sv."] / max(current["Sv."]),
+	ldsa = current["LDSA"] / max(current["LDSA"]),
+	ldga = current["LDGA"] / max(current["LDGA"]),
+	ldsv = current["LDSv."] / max(current["LDSv."]),
+	mdsa = current["MDSA"] / max(current["MDSA"]),
+	mdga = current["MDGA"] / max(current["MDGA"]),
+	mdsv = current["MDSv."] / max(current["MDSv."]),
+	hdsa = current["HDSA"] / max(current["HDSA"]),
+	hdga = current["HDGA"] / max(current["HDGA"]),
+	hdsv = current["HDSv."] / max(current["HDSv."])
 )
 
 currentData <- currentData[complete.cases(currentData),]
@@ -332,19 +332,19 @@ saveGraph(hdGraph, "images/high-danger.png")
 
 murrayRaw <- filter(current, current$Player == "MATT.MURRAY")
 murrayFrame <- data.frame(
-	gp = murrayRaw["GP"][[1]],
-	sa = murrayRaw["SA"][[1]],
-	ga = murrayRaw["GA"][[1]],
-	sv = murrayRaw["Sv."][[1]],
-	ldsa = murrayRaw["LDSA"][[1]],
-	ldga = murrayRaw["LDGA"][[1]],
-	ldsv = murrayRaw["LDSv."][[1]],
-	mdsa = murrayRaw["MDSA"][[1]],
-	mdga = murrayRaw["MDGA"][[1]],
-	mdsv = murrayRaw["MDSv."][[1]],
-	hdsa = murrayRaw["HDSA"][[1]],
-	hdga = murrayRaw["HDGA"][[1]],
-	hdsv = murrayRaw["HDSv."][[1]]
+	gp = murrayRaw["GP"] / max(current["GP"]),
+	sa = murrayRaw["SA"] / max(current["SA"]),
+	ga = murrayRaw["GA"] / max(current["GA"]),
+	sv = murrayRaw["Sv."] / max(current["Sv."]),
+	ldsa = murrayRaw["LDSA"] / max(current["LDSA"]),
+	ldga = murrayRaw["LDGA"] / max(current["LDGA"]),
+	ldsv = murrayRaw["LDSv."] / max(current["LDSv."]),
+	mdsa = murrayRaw["MDSA"] / max(current["MDSA"]),
+	mdga = murrayRaw["MDGA"] / max(current["MDGA"]),
+	mdsv = murrayRaw["MDSv."] / max(current["MDSv."]),
+	hdsa = murrayRaw["HDSA"] / max(current["HDSA"]),
+	hdga = murrayRaw["HDGA"] / max(current["HDSA"]),
+	hdsv = murrayRaw["HDSv."] / max(current["HDSv."])
 )
 
 murrayPrediction01 <- compute(nn01, murrayFrame)
@@ -359,19 +359,19 @@ print(paste("Percent Chance as Starter [Murray] (nn02):",
 
 raskRaw <- filter(current, current$Player == "TUUKKA.RASK")
 raskFrame <- data.frame(
-	gp = raskRaw["GP"][[1]],
-	sa = raskRaw["SA"][[1]],
-	ga = raskRaw["GA"][[1]],
-	sv = raskRaw["Sv."][[1]],
-	ldsa = raskRaw["LDSA"][[1]],
-	ldga = raskRaw["LDGA"][[1]],
-	ldsv = raskRaw["LDSv."][[1]],
-	mdsa = raskRaw["MDSA"][[1]],
-	mdga = raskRaw["MDGA"][[1]],
-	mdsv = raskRaw["MDSv."][[1]],
-	hdsa = raskRaw["HDSA"][[1]],
-	hdga = raskRaw["HDGA"][[1]],
-	hdsv = raskRaw["HDSv."][[1]]
+	gp = raskRaw["GP"] / max(current["GP"]),
+	sa = raskRaw["SA"] / max(current["SA"]),
+	ga = raskRaw["GA"] / max(current["GA"]),
+	sv = raskRaw["Sv."] / max(current["Sv."]),
+	ldsa = raskRaw["LDSA"] / max(current["LDSA"]),
+	ldga = raskRaw["LDGA"] / max(current["LDGA"]),
+	ldsv = raskRaw["LDSv."] / max(current["LDSv."]),
+	mdsa = raskRaw["MDSA"] / max(current["MDSA"]),
+	mdga = raskRaw["MDGA"] / max(current["MDGA"]),
+	mdsv = raskRaw["MDSv."] / max(current["MDSv."]),
+	hdsa = raskRaw["HDSA"] / max(current["HDSA"]),
+	hdga = raskRaw["HDGA"] / max(current["HDSA"]),
+	hdsv = raskRaw["HDSv."] / max(current["HDSv."])
 )
 
 raskPrediction01 <- compute(nn01, raskFrame)
@@ -385,19 +385,19 @@ print(paste("Percent Chance as Starter [Rask] (nn02):",
 
 condonRaw <- filter(current, current$Player == "MIKE.CONDON")
 condonFrame <- data.frame(
-	gp = condonRaw["GP"][[1]],
-	sa = condonRaw["SA"][[1]],
-	ga = condonRaw["GA"][[1]],
-	sv = condonRaw["Sv."][[1]],
-	ldsa = condonRaw["LDSA"][[1]],
-	ldga = condonRaw["LDGA"][[1]],
-	ldsv = condonRaw["LDSv."][[1]],
-	mdsa = condonRaw["MDSA"][[1]],
-	mdga = condonRaw["MDGA"][[1]],
-	mdsv = condonRaw["MDSv."][[1]],
-	hdsa = condonRaw["HDSA"][[1]],
-	hdga = condonRaw["HDGA"][[1]],
-	hdsv = condonRaw["HDSv."][[1]]
+	gp = condonRaw["GP"] / max(current["GP"]),
+	sa = condonRaw["SA"] / max(current["SA"]),
+	ga = condonRaw["GA"] / max(current["GA"]),
+	sv = condonRaw["Sv."] / max(current["Sv."]),
+	ldsa = condonRaw["LDSA"] / max(current["LDSA"]),
+	ldga = condonRaw["LDGA"] / max(current["LDGA"]),
+	ldsv = condonRaw["LDSv."] / max(current["LDSv."]),
+	mdsa = condonRaw["MDSA"] / max(current["MDSA"]),
+	mdga = condonRaw["MDGA"] / max(current["MDGA"]),
+	mdsv = condonRaw["MDSv."] / max(current["MDSv."]),
+	hdsa = condonRaw["HDSA"] / max(current["HDSA"]),
+	hdga = condonRaw["HDGA"] / max(current["HDSA"]),
+	hdsv = condonRaw["HDSv."] / max(current["HDSv."])
 )
 
 condonPrediction01 <- compute(nn01, condonFrame)

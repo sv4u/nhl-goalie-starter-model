@@ -270,7 +270,7 @@ murrayPrediction01 <- compute(nn01, murrayFrame)
 murrayPrediction02 <- compute(nn02, murrayFrame)
 ```
 
-Now with the predictions, we can see if Matt Murray has been good enough to be a starter this year. Murray seems to have been at the level of a backup.
+Now with the predictions, we can see if Matt Murray has been good enough to be a starter this year. Murray seems to have been at the level of a ---.
 
 ## Difference between established starters and established backups
 
@@ -320,4 +320,4 @@ condonPrediction01 <- compute(nn01, condonFrame)
 condonPrediction02 <- compute(nn02, condonFrame)
 ```
 
-Now the prediction for Rask leaves him at a 97% percent chance, compared to Condon's of 14% percent.
+Now the prediction for Rask leaves him at a ---- percent chance, compared to Condon's of ---- percent.
