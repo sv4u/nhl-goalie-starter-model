@@ -313,3 +313,7 @@ Compared to Murray, DeSmith has a better percent chance of being a starting goal
 ## Conclusion
 
 Even though Matt Murray has not been up to stuff, he still is showing signs up improvement. His game is becoming more well-rounded and hopefully his streakiness will turn into consistent elite goaltending.
+
+## Caveat
+
+Currently, the goalie who has played the most games is Anders Nilsson and David Rittich, both who have played 12 games. In statistics, and especially in sports analytics, there must be a large enough sample size for an analysis to have any bearing. So, current goalies need to have at least (this is the smallest number of starts that I am willing to use in order for any result to have any major significant) 20 games played Currently, no goalie is close to that value, so the analysis on Matt Murray with comparisons to Devan Dubnyk and Casey DeSmith are not significant. Though the analysis does shed light, it does not have complete bearing given that the season is still young. Come the end of November, when more games have been played, a more significant analysis can be done.
