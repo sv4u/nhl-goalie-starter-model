@@ -76,6 +76,8 @@ flowerFrame = data.frame(
 )
 
 flowerPrediction20152016 = compute(net20152016, flowerFrame)
+flowerPrediction20152016$rounded = round(
+	flowerPrediction20152016$net.result[1])
 ```
 
 # Neural Network Based on Multi-Year Data
@@ -163,13 +165,15 @@ flowerFrame = data.frame(
 )
 
 flowerPrediction20152018 = compute(net20152018, flowerFrame)
+flowerPrediction20152018$rounded = round(
+	flowerPrediction20152018$net.result[1])
 ```
 
 So, now we can see if he is a starting goalie from both neural networks.
 
 ```{r}
-flowerPrediction20152016$net.result
-flowerPrediction20152018$net.result
+flowerPrediction20152016$rounded
+flowerPrediction20152018$rounded
 ```
 
 Now, if we use the 2017-2018 Marc-Andre Fleury data, we get different results.
@@ -187,6 +191,11 @@ flowerFrame = data.frame(
 flowerPrediction20152016 = compute(net20152016, flowerFrame)
 flowerPrediction20152018 = compute(net20152018, flowerFrame)
 
-flowerPrediction20152016$net.result
-flowerPrediction20152018$net.result
+flowerPrediction20152016$rounded = round(
+	flowerPrediction20152016$net.result[1])
+flowerPrediction20152018$rounded = round(
+	flowerPrediction20152018$net.result[1])
+
+flowerPrediction20152016$rounded
+flowerPrediction20152018$rounded
 ```
