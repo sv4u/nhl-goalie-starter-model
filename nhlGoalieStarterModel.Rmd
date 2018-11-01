@@ -8,7 +8,7 @@ runtime: shiny
 ```{r, echo = FALSE}
 rm(list = ls())
 
-seed = 23
+seed = 15224
 set.seed(seed)
 ```
 
@@ -40,11 +40,11 @@ Now, we can create the dataframe that we will use in our neural network.
 ```{r}
 dataframe20152016 = data.frame(
 	s = starters,
-	gsaa = data20152016$GSAA,
-	dsvp = data20152016$dSv.,
-	ldsvp = data20152016$LDSv.,
-	mdsvp = data20152016$MDSv.,
-	hdsvp = data20152016$HDSv.
+	gsaa = data20152016$GSAA / max(data20152016$GSAA),
+	dsvp = data20152016$dSv. / 100,
+	ldsvp = data20152016$LDSv. / 100,
+	mdsvp = data20152016$MDSv. / 100,
+	hdsvp = data20152016$HDSv / 100.
 )
 
 dataframe20152016 = dataframe20152016[complete.cases(dataframe20152016),]
@@ -68,11 +68,11 @@ Now, let's just see if it thinks Marc-Andre Fleury is a starter.
 ```{r}
 flowerRaw = subset(data20152016, Player == "MARC-ANDRE.FLEURY")
 flowerFrame = data.frame(
-	gsaa = flowerRaw$GSAA,
-	dsvp = flowerRaw$dSv.,
-	ldsvp = flowerRaw$LDSv.,
-	mdsvp = flowerRaw$MDSv.,
-	hdsvp = flowerRaw$HDSv.
+	gsaa = flowerRaw$GSAA / max(data20152016$GSAA),
+	dsvp = flowerRaw$dSv. / 100,
+	ldsvp = flowerRaw$LDSv. / 100,
+	mdsvp = flowerRaw$MDSv. / 100,
+	hdsvp = flowerRaw$HDSv. / 100
 )
 
 flowerPrediction20152016 = compute(net20152016, flowerFrame)
@@ -97,11 +97,11 @@ starters20152016[which(data20152016$GP >= 40)] = 1
 
 dataframe20152016 = data.frame(
 	s = starters20152016,
-	gsaa = data20152016$GSAA,
-	dsvp = data20152016$dSv.,
-	ldsvp = data20152016$LDSv.,
-	mdsvp = data20152016$MDSv.,
-	hdsvp = data20152016$HDSv.
+	gsaa = data20152016$GSAA / max(data20152016$GSAA),
+	dsvp = data20152016$dSv. / 100,
+	ldsvp = data20152016$LDSv. / 100,
+	mdsvp = data20152016$MDSv. / 100,
+	hdsvp = data20152016$HDSv / 100.
 )
 
 dataframe20152016 = dataframe20152016[complete.cases(dataframe20152016),]
@@ -111,11 +111,11 @@ starters20162017[which(data20162017$GP >= 40)] = 1
 
 dataframe20162017 = data.frame(
 	s = starters20162017,
-	gsaa = data20162017$GSAA,
-	dsvp = data20162017$dSv.,
-	ldsvp = data20162017$LDSv.,
-	mdsvp = data20162017$MDSv.,
-	hdsvp = data20162017$HDSv.
+	gsaa = data20162017$GSAA / max(data20162017$GSAA),
+	dsvp = data20162017$dSv. / 100,
+	ldsvp = data20162017$LDSv. / 100,
+	mdsvp = data20162017$MDSv. / 100,
+	hdsvp = data20162017$HDSv / 100.
 )
 
 dataframe20162017 = dataframe20162017[complete.cases(dataframe20162017),]
@@ -125,11 +125,11 @@ starters20172018[which(data20172018$GP >= 40)] = 1
 
 dataframe20172018 = data.frame(
 	s = starters20172018,
-	gsaa = data20172018$GSAA,
-	dsvp = data20172018$dSv.,
-	ldsvp = data20172018$LDSv.,
-	mdsvp = data20172018$MDSv.,
-	hdsvp = data20172018$HDSv.
+	gsaa = data20172018$GSAA / max(data20172018$GSAA),
+	dsvp = data20172018$dSv. / 100,
+	ldsvp = data20172018$LDSv. / 100,
+	mdsvp = data20172018$MDSv. / 100,
+	hdsvp = data20172018$HDSv / 100.
 )
 
 dataframe20172018 = dataframe20172018[complete.cases(dataframe20172018),]
@@ -157,11 +157,11 @@ With our multi-year neural network, let's test it out on Marc-Andre Fleury again
 ```{r}
 flowerRaw = subset(data20152016, Player == "MARC-ANDRE.FLEURY")
 flowerFrame = data.frame(
-	gsaa = flowerRaw$GSAA,
-	dsvp = flowerRaw$dSv.,
-	ldsvp = flowerRaw$LDSv.,
-	mdsvp = flowerRaw$MDSv.,
-	hdsvp = flowerRaw$HDSv.
+	gsaa = flowerRaw$GSAA / max(data20152016$GSAA),
+	dsvp = flowerRaw$dSv. / 100,
+	ldsvp = flowerRaw$LDSv. / 100,
+	mdsvp = flowerRaw$MDSv. / 100,
+	hdsvp = flowerRaw$HDSv. / 100
 )
 
 flowerPrediction20152018 = compute(net20152018, flowerFrame)
@@ -181,11 +181,11 @@ Now, if we use the 2017-2018 Marc-Andre Fleury data, we get different results.
 ```{r}
 flowerRaw = subset(data20172018, Player == "MARC-ANDRE.FLEURY")
 flowerFrame = data.frame(
-	gsaa = flowerRaw$GSAA,
-	dsvp = flowerRaw$dSv.,
-	ldsvp = flowerRaw$LDSv.,
-	mdsvp = flowerRaw$MDSv.,
-	hdsvp = flowerRaw$HDSv.
+	gsaa = flowerRaw$GSAA / max(data20172018$GSAA),
+	dsvp = flowerRaw$dSv. / 100,
+	ldsvp = flowerRaw$LDSv. / 100,
+	mdsvp = flowerRaw$MDSv. / 100,
+	hdsvp = flowerRaw$HDSv. / 100
 )
 
 flowerPrediction20152016 = compute(net20152016, flowerFrame)
@@ -222,4 +222,94 @@ First, we need to get Murray's data.
 
 ```{r}
 currentData = read.csv("data/goalie_stats_20182019.csv")
+murrayRaw = subset(currentData, Player == "MATT.MURRAY")
+murrayFrame = data.frame(
+	gsaa = murrayRaw$GSAA / max(currentData$GSAA),
+	dsvp = murrayRaw$dSv. / 100,
+	ldsvp = murrayRaw$LDSv. / 100,
+	mdsvp = murrayRaw$MDSv. / 100,
+	hdsvp = murrayRaw$HDSv. / 100
+)
+
+murrayPrediction20152016 = compute(net20152016, murrayFrame)
+murrayPrediction20152018 = compute(net20152016, murrayFrame)
+
+murrayPrediction20152016$rounded = round(
+	murrayPrediction20152016$net.result[1])
+murrayPrediction20152018$rounded = round(
+	murrayPrediction20152018$net.result[1])
+
+murrayPrediction20152016$rounded
+murrayPrediction20152018$rounded
 ```
+
+As we see here, Murray is not starter caliber through the beginning of this young season. His percent chances of being a starter, given the neural network, are:
+
+```{r}
+murrayPrediction20152016$net.result[1]
+murrayPrediction20152018$net.result[1]
+```
+
+## Comparisons to a Baseline Goalie
+
+I believe a good baseline to measure Murray to is Devan Dubnyk. Dubnyk is the go to starter for the Minnesota Wild. His results from the networks are:
+
+```{r}
+compareRaw = subset(currentData, Player == "DEVAN.DUBNYK")
+compareFrame = data.frame(
+	gsaa = compareRaw$GSAA / max(currentData$GSAA),
+	dsvp = compareRaw$dSv. / 100,
+	ldsvp = compareRaw$LDSv. / 100,
+	mdsvp = compareRaw$MDSv. / 100,
+	hdsvp = compareRaw$HDSv. / 100
+)
+
+comparePrediction20152016 = compute(net20152016, compareFrame)
+comparePrediction20152018 = compute(net20152016, compareFrame)
+
+comparePrediction20152016$rounded = round(
+	comparePrediction20152016$net.result[1])
+comparePrediction20152018$rounded = round(
+	comparePrediction20152018$net.result[1])
+
+comparePrediction20152016$rounded
+comparePrediction20152018$rounded
+
+comparePrediction20152016$net.result[1]
+comparePrediction20152018$net.result[1]
+```
+
+## Comparison to Murray's Backup
+
+The previous comparison shows that Dubnyk is by far the better goalie. However, Dubnyk is a veteran while Murray is still only in his third year. A better comparison would be Casey DeSmith, the backup to Murray.
+
+```{r}
+compareRaw = subset(currentData, Player == "CASEY.DESMITH")
+compareFrame = data.frame(
+	gsaa = compareRaw$GSAA / max(currentData$GSAA),
+	dsvp = compareRaw$dSv. / 100,
+	ldsvp = compareRaw$LDSv. / 100,
+	mdsvp = compareRaw$MDSv. / 100,
+	hdsvp = compareRaw$HDSv. / 100
+)
+
+comparePrediction20152016 = compute(net20152016, compareFrame)
+comparePrediction20152018 = compute(net20152016, compareFrame)
+
+comparePrediction20152016$rounded = round(
+	comparePrediction20152016$net.result[1])
+comparePrediction20152018$rounded = round(
+	comparePrediction20152018$net.result[1])
+
+comparePrediction20152016$rounded
+comparePrediction20152018$rounded
+
+comparePrediction20152016$net.result[1]
+comparePrediction20152018$net.result[1]
+```
+
+Compared to Murray, DeSmith has a better percent chance of being a starting goalie on any given day. Looking at DeSmith's season totals (4 games started, 2-0 record with 2 overtime losses, 2.23 goals against average, 93.2% save percentage, and 3.55 goals saved above average), it is easy to see that DeSmith has played better than Murray.
+
+## Conclusion
+
+Even though Matt Murray has not been up to stuff, he still is showing signs up improvement. His game is becoming more well-rounded and hopefully his streakiness will turn into consistent elite goaltending.
