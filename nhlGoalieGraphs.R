@@ -12,6 +12,7 @@ rm(list = ls())
 ###############################################################################
 
 current <- read.csv("data/goalie_stats_20182019.csv")
+current = current[complete.cases(current),]
 
 lowDanger <-
 	data.frame(
@@ -40,6 +41,10 @@ highDanger <-
 ldGraph <- ggplot(lowDanger, aes(x = ldsa, y = ldsv)) +
 	geom_point(alpha = 0.6, aes(size = ldga), show.legend = T) +
 	theme_minimal() +
+	geom_text(check_overlap = TRUE,
+			  label = lowDanger$name,
+			  hjust = 0,
+			  nudge_x = 0.5) +
 	ggtitle("Low Danger Shots Against vs Save Percentage: 2018-2019") +
 	labs(x = "Low Danger Shots Against",
 		 y = "Low Danger Save Percentage",
@@ -48,6 +53,10 @@ ldGraph <- ggplot(lowDanger, aes(x = ldsa, y = ldsv)) +
 mdGraph <- ggplot(midDanger, aes(x = mdsa, y = mdsv)) +
 	geom_point(alpha = 0.6, aes(size = mdga), show.legend = T) +
 	theme_minimal() +
+	geom_text(check_overlap = TRUE,
+			  label = midDanger$name,
+			  hjust = 0,
+			  nudge_x = 0.5) +
 	ggtitle("Mid Danger Shots Against vs Save Percentage: 2018-2019") +
 	labs(x = "Mid Danger Shots Against",
 		 y = "Mid Danger Save Percentage",
@@ -56,6 +65,10 @@ mdGraph <- ggplot(midDanger, aes(x = mdsa, y = mdsv)) +
 hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
 	geom_point(alpha = 0.6, aes(size = hdga), show.legend = T) +
 	theme_minimal() +
+	geom_text(check_overlap = TRUE,
+			  label = highDanger$name,
+			  hjust = 0,
+			  nudge_x = 0.5) +
 	ggtitle("High Danger Shots Against vs Save Percentage: 2018-2019") +
 	labs(x = "High Danger Shots Against",
 		 y = "High Danger Save Percentage",
@@ -69,8 +82,8 @@ saveGraph <- function(graph, filename) {
 	ggsave(
 		filename,
 		plot = graph,
-		height = 27,
-		width = 48,
+		height = 30,
+		width = 50,
 		units = "cm"
 	)
 }
