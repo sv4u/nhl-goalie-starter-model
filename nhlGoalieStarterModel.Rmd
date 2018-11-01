@@ -7,6 +7,9 @@ runtime: shiny
 
 ```{r, echo = FALSE}
 rm(list = ls())
+
+seed = 23
+set.seed(seed)
 ```
 
 Currently, success in the NHL is largely due to the success and consistency of a starting goalie. However, with the influx of new, young talent in the league, determining the starting goalie can be difficult at times. So, I have decided to work on creating a model to determine if a goalie is of starter caliber.
@@ -29,7 +32,6 @@ Now, let's determine which goalies during the 2015-2016 season were starters. If
 
 ```{r}
 starters = list(rep(0, length(data20152016$Player)))[[1]]
-
 starters[which(data20152016$GP >= 40)] = 1
 ```
 
@@ -73,7 +75,7 @@ flowerFrame = data.frame(
 	hdsvp = flowerRaw$HDSv.
 )
 
-flowerPrediction = compute(net20152016, flowerFrame)
+flowerPrediction20152016 = compute(net20152016, flowerFrame)
 ```
 
 # Neural Network Based on Multi-Year Data
@@ -86,3 +88,105 @@ data20172018 = read.csv("data/goalie_stats_20172018.csv")
 ```
 
 With this multi-year data, we can build a model based on 3 years of data. So, let's do that!
+
+```{r}
+starters20152016 = list(rep(0, length(data20152016$Player)))[[1]]
+starters20152016[which(data20152016$GP >= 40)] = 1
+
+dataframe20152016 = data.frame(
+	s = starters20152016,
+	gsaa = data20152016$GSAA,
+	dsvp = data20152016$dSv.,
+	ldsvp = data20152016$LDSv.,
+	mdsvp = data20152016$MDSv.,
+	hdsvp = data20152016$HDSv.
+)
+
+dataframe20152016 = dataframe20152016[complete.cases(dataframe20152016),]
+
+starters20162017 = list(rep(0, length(data20162017$Player)))[[1]]
+starters20162017[which(data20162017$GP >= 40)] = 1
+
+dataframe20162017 = data.frame(
+	s = starters20162017,
+	gsaa = data20162017$GSAA,
+	dsvp = data20162017$dSv.,
+	ldsvp = data20162017$LDSv.,
+	mdsvp = data20162017$MDSv.,
+	hdsvp = data20162017$HDSv.
+)
+
+dataframe20162017 = dataframe20162017[complete.cases(dataframe20162017),]
+
+starters20172018 = list(rep(0, length(data20172018$Player)))[[1]]
+starters20172018[which(data20172018$GP >= 40)] = 1
+
+dataframe20172018 = data.frame(
+	s = starters20172018,
+	gsaa = data20172018$GSAA,
+	dsvp = data20172018$dSv.,
+	ldsvp = data20172018$LDSv.,
+	mdsvp = data20172018$MDSv.,
+	hdsvp = data20172018$HDSv.
+)
+
+dataframe20172018 = dataframe20172018[complete.cases(dataframe20172018),]
+
+dataframe20152018 = rbind(dataframe20152016,
+						  dataframe20162017,
+						  dataframe20172018)
+```
+
+Now, we can create the neural net.
+
+```{r}
+features = names(dataframe20152018[2:6])
+formula = paste(features, collapse = " + ")
+formula = paste("dataframe20152018$s ~ ", formula)
+formula = as.formula(formula)
+
+net20152018 = neuralnet(formula,
+						dataframe20152018[2:6],
+						linear.output = FALSE)
+```
+
+With our multi-year neural network, let's test it out on Marc-Andre Fleury again.
+
+```{r}
+flowerRaw = subset(data20152016, Player == "MARC-ANDRE.FLEURY")
+flowerFrame = data.frame(
+	gsaa = flowerRaw$GSAA,
+	dsvp = flowerRaw$dSv.,
+	ldsvp = flowerRaw$LDSv.,
+	mdsvp = flowerRaw$MDSv.,
+	hdsvp = flowerRaw$HDSv.
+)
+
+flowerPrediction20152018 = compute(net20152018, flowerFrame)
+```
+
+So, now we can see if he is a starting goalie from both neural networks.
+
+```{r}
+flowerPrediction20152016$net.result
+flowerPrediction20152018$net.result
+```
+
+Now, if we use the 2017-2018 Marc-Andre Fleury data, we get different results.
+
+```{r}
+flowerRaw = subset(data20172018, Player == "MARC-ANDRE.FLEURY")
+flowerFrame = data.frame(
+	gsaa = flowerRaw$GSAA,
+	dsvp = flowerRaw$dSv.,
+	ldsvp = flowerRaw$LDSv.,
+	mdsvp = flowerRaw$MDSv.,
+	hdsvp = flowerRaw$HDSv.
+)
+
+flowerPrediction20152016 = compute(net20152016, flowerFrame)
+flowerPrediction20152018 = compute(net20152018, flowerFrame)
+
+flowerPrediction20152016$net.result
+flowerPrediction20152018$net.result
+```
