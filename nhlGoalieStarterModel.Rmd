@@ -1,8 +1,8 @@
 ---
 title: "NHL Goalie Starter Model"
 author: "Sasank Vishnubhatla"
-date: "October 14, 2018"
-runtime: shiny
+date: "November 1, 2018"
+output: pdf_document
 ---
 
 ```{r, echo = FALSE}
