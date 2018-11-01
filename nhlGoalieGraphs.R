@@ -1,10 +1,11 @@
 Sys.setenv(TZ = 'EST')
 
-library(tidyverse)
+library(ggplot2)
 
 ###############################################################################
 
-setwd(getwd())
+this.dir <- dirname(parent.frame(2)$ofile)
+setwd(this.dir)
 
 rm(list = ls())
 
@@ -43,19 +44,25 @@ ldGraph <- ggplot(lowDanger, aes(x = ldsa, y = ldsv)) +
 	geom_point(alpha = 0.6, aes(size = ldga), show.legend = T) +
 	theme_minimal() +
 	ggtitle("Low Danger Shots Against vs Save Percentage") +
-	labs(x = "Low Danger Shots Against", y = "Low Danger Save Percentage", size = "Low Danger Goals Against")
+	labs(x = "Low Danger Shots Against",
+		 y = "Low Danger Save Percentage",
+		 size = "Low Danger Goals Against")
 
 mdGraph <- ggplot(midDanger, aes(x = mdsa, y = mdsv)) +
 	geom_point(alpha = 0.6, aes(size = mdga), show.legend = T) +
 	theme_minimal() +
 	ggtitle("Mid Danger Shots Against vs Save Percentage") +
-	labs(x = "Mid Danger Shots Against", y = "Mid Danger Save Percentage", size = "Mid Danger Goals Against")
+	labs(x = "Mid Danger Shots Against",
+		 y = "Mid Danger Save Percentage",
+		 size = "Mid Danger Goals Against")
 
 hdGraph <- ggplot(highDanger, aes(x = hdsa, y = hdsv)) +
 	geom_point(alpha = 0.6, aes(size = hdga), show.legend = T) +
 	theme_minimal() +
 	ggtitle("High Danger Shots Against vs Save Percentage") +
-	labs(x = "High Danger Shots Against", y = "High Danger Save Percentage", size = "High Danger Goals Against")
+	labs(x = "High Danger Shots Against",
+		 y = "High Danger Save Percentage",
+		 size = "High Danger Goals Against")
 
 ###############################################################################
 
