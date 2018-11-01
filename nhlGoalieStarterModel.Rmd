@@ -199,3 +199,27 @@ flowerPrediction20152018$rounded = round(
 flowerPrediction20152016$rounded
 flowerPrediction20152018$rounded
 ```
+
+# Matt Murray
+
+## Preface
+
+During the playoffs, Matt Murray has been known to be spectacular when healthy. Leading the Pittsburgh Penguins to back to back Stanley Cups in 2016 and 2017, Murray established himself as a premier goalie during his rookie and sophomore season. However, Murray has yet to prove himself as a consistent goalie during the regular season. This can be seen from his stats last year: 45 games started, 27-15 record with 3 overtime losses, 2.92 goals against average, 90.7% save percentage, and -8.11 goals saved above average. If we look at his first full season in the league, 2016-2017, Matt Murray looked like an elite goalie: 47 starts, 32-10 record with 4 overtime losses, 2.41 goals against average, 92.3% save percentage, and +14.48 goals save above average.
+
+Whenever Matt Murray is on his game, he is dominant. However, a goalie can only do so much. The Penguins defense during the 2017-2018 season was worse than expected. This translated to Murray being put in more situations where he just could not make the save.
+
+Analysts believe that Murray's "down" year in 2017-2018 was merely a product of his team's defensive effort in front of him. However, with a shaky start this season, it's hard to tell if that is actually true. In Murray's first two starts this year, he gave up 6 goals on 36 shots (in a winning effort) against Washington and 5 goals on 29 shots (in a losing effort) against Montreal. His save percentage after his first two starts was an abysmal 83.1%. Even worse was his goals against average: approximately 5.50. This is not starter caliber by any means.
+
+However, Murray immediately rebounded with a convincing 38 save shutout performance in Toronto before being victorious in a shootout in Edmonton (5 goals on 46 shots). Then, he was nearly perfect in Calgary where he gave up a fluke goal on 39 shots in a dominant performance. However, in his most recent start against the New York Islanders, Murray was yanked after giving up 4 goals on 9 shots. His past start should be taken with a grain of salt as he was left out to try by his defense, who played horrifically in front of him.
+
+With his streakiness, Murray could be a starter who plays 45 to 50 games. However, for a large percent of those, he may not show up as an elite goalie, or he is a brick wall. His consistancy lacks, though he is only in his third year as a starter.
+
+Using the models we made before, let's see if Matt Murray has the ability to be a starter in today's NHL.
+
+## Analysis
+
+First, we need to get Murray's data.
+
+```{r}
+currentData = read.csv("data/goalie_stats_20182019.csv")
+```
