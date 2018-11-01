@@ -5,3 +5,4 @@ date: "October 14, 2018"
 runtime: shiny
 ---
 
+Currently, success in the NHL is largely due to the success and consistency of a starting goalie. However, with the influx of new, young talent in the league, determining the starting goalie can be difficult at times. So, I have decided to work on creating a model to determine if a goalie is of starter caliber.
