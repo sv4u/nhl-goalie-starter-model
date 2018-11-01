@@ -5,4 +5,84 @@ date: "October 14, 2018"
 runtime: shiny
 ---
 
+```{r, echo = FALSE}
+rm(list = ls())
+```
+
 Currently, success in the NHL is largely due to the success and consistency of a starting goalie. However, with the influx of new, young talent in the league, determining the starting goalie can be difficult at times. So, I have decided to work on creating a model to determine if a goalie is of starter caliber.
+
+First, let's import the `neuralnet` package.
+
+```{r}
+library(neuralnet)
+```
+
+# Preliminary Neural Network Model
+
+Let's import the 2015-2016 season data.
+
+```{r}
+data20152016 = read.csv("data/goalie_stats_20152016.csv")
+```
+
+Now, let's determine which goalies during the 2015-2016 season were starters. If a goalie starts more than 40 games, then the goalie shall be considered a starter. So, in 2015-2016, notable non-starters are Johnathan Bernier and Jimmy Howard.
+
+```{r}
+starters = list(rep(0, length(data20152016$Player)))[[1]]
+
+starters[which(data20152016$GP >= 40)] = 1
+```
+
+Now, we can create the dataframe that we will use in our neural network.
+
+```{r}
+dataframe20152016 = data.frame(
+	s = starters,
+	gsaa = data20152016$GSAA,
+	dsvp = data20152016$dSv.,
+	ldsvp = data20152016$LDSv.,
+	mdsvp = data20152016$MDSv.,
+	hdsvp = data20152016$HDSv.
+)
+
+dataframe20152016 = dataframe20152016[complete.cases(dataframe20152016),]
+```
+
+Now, with the dataframe made, we can create our first neural network.
+
+```{r}
+features = names(dataframe20152016[2:6])
+formula = paste(features, collapse = " + ")
+formula = paste("dataframe20152016$s ~ ", formula)
+formula = as.formula(formula)
+
+net20152016 = neuralnet(formula,
+						dataframe20152016[2:6],
+						linear.output = FALSE)
+```
+
+Now, let's just see if it thinks Marc-Andre Fleury is a starter.
+
+```{r}
+flowerRaw = subset(data20152016, Player == "MARC-ANDRE.FLEURY")
+flowerFrame = data.frame(
+	gsaa = flowerRaw$GSAA,
+	dsvp = flowerRaw$dSv.,
+	ldsvp = flowerRaw$LDSv.,
+	mdsvp = flowerRaw$MDSv.,
+	hdsvp = flowerRaw$HDSv.
+)
+
+flowerPrediction = compute(net20152016, flowerFrame)
+```
+
+# Neural Network Based on Multi-Year Data
+
+Now, let's build a model using more recent data.
+
+```{r}
+data20162017 = read.csv("data/goalie_stats_20162017.csv")
+data20172018 = read.csv("data/goalie_stats_20172018.csv")
+```
+
+With this multi-year data, we can build a model based on 3 years of data. So, let's do that!
