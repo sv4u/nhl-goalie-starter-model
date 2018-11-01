@@ -1,7 +1,7 @@
 CC = Rscript
 
-default: normal
+default: graphs
 
-normal: nhl_goalie_starter_model.R
-	$(CC) nhl_goalie_starter_model.R
+graphs: nhlGoalieGraphs.R
+	$(CC) nhlGoalieGraphs.R
 	rm Rplots.pdf
