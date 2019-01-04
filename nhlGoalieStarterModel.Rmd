@@ -2,6 +2,7 @@
 title: "NHL Goalie Starter Model"
 author: "Sasank Vishnubhatla"
 date: "November 1, 2018"
+output: pdf_document
 ---
 
 ```{r, echo = FALSE}
@@ -316,3 +317,68 @@ Even though Matt Murray has not been up to stuff, he still is showing signs up i
 ## Caveat
 
 Currently, the goalie who has played the most games is Anders Nilsson and David Rittich, both who have played 12 games. In statistics, and especially in sports analytics, there must be a large enough sample size for an analysis to have any bearing. So, current goalies need to have at least (this is the smallest number of starts that I am willing to use in order for any result to have any major significant) 20 games played Currently, no goalie is close to that value, so the analysis on Matt Murray with comparisons to Devan Dubnyk and Casey DeSmith are not significant. Though the analysis does shed light, it does not have complete bearing given that the season is still young. Come the end of November, when more games have been played, a more significant analysis can be done.
+
+# An update: January 4th, 2019
+
+It's been around 2 months since we've updated the data. Matt Murray is back and playing well and the NHL has reached it's midway point in the season. So, let's take another look at Matt Murray. Let's re-run our models on Murray's updated data (from January 4th, 2019).
+
+```{r}
+updatedData = read.csv("data/goalie_stats_20182019_updated.csv")
+murrayRawUpdated = subset(updatedData, Player == "MATT.MURRAY")
+murrayFrameUpdated = data.frame(
+	gsaa = murrayRawUpdated$GSAA / max(updatedData$GSAA),
+	dsvp = murrayRawUpdated$dSv. / 100,
+	ldsvp = murrayRawUpdated$LDSv. / 100,
+	mdsvp = murrayRawUpdated$MDSv. / 100,
+	hdsvp = murrayRawUpdated$HDSv. / 100
+)
+
+murrayPrediction20152016Updated = compute(net20152016, murrayFrameUpdated)
+murrayPrediction20152018Updated = compute(net20152016, murrayFrameUpdated)
+
+murrayPrediction20152016Updated$rounded = round(
+	murrayPrediction20152016Updated$net.result[1])
+murrayPrediction20152018Updated$rounded = round(
+	murrayPrediction20152018Updated$net.result[1])
+
+murrayPrediction20152016Updated$rounded
+murrayPrediction20152018Updated$rounded
+```
+
+The data still says Murray is not starting caliber. But what's the percentage chance he has?
+
+```{r}
+murrayPrediction20152016Updated$net.result[1]
+murrayPrediction20152018Updated$net.result[1]
+```
+
+Compared to the original analysis, Murray has gotten better. Though it's a bit above one percent, it's still better. This shows that the model still believes Murray is not starting caliber, though Murray has an exceptional line since he's returned from injury.
+
+Now let's take a look at Casey DeSmith.
+
+```{r}
+compareRawUpdated = subset(updatedData, Player == "CASEY.DESMITH")
+compareFrameUpdated = data.frame(
+	gsaa = compareRawUpdated$GSAA / max(updatedData$GSAA),
+	dsvp = compareRawUpdated$dSv. / 100,
+	ldsvp = compareRawUpdated$LDSv. / 100,
+	mdsvp = compareRawUpdated$MDSv. / 100,
+	hdsvp = compareRawUpdated$HDSv. / 100
+)
+
+comparePrediction20152016Updated = compute(net20152016, compareFrameUpdated)
+comparePrediction20152018Updated = compute(net20152016, compareFrameUpdated)
+
+comparePrediction20152016Updated$rounded = round(
+	comparePrediction20152016Updated$net.result[1])
+comparePrediction20152018Updated$rounded = round(
+	comparePrediction20152018Updated$net.result[1])
+
+comparePrediction20152016Updated$rounded
+comparePrediction20152018Updated$rounded
+
+comparePrediction20152016Updated$net.result[1]
+comparePrediction20152018Updated$net.result[1]
+```
+
+Casey DeSmith has been answering the bell for the Penguins. His spectacular play, as a backup goaltender playing starter minutes, has shown. He was deemed starting caliber by both models. With a 67.7%, DeSmith has shown that he can be an everyday starter.
