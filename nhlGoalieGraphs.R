@@ -11,7 +11,7 @@ rm(list = ls())
 
 ###############################################################################
 
-current <- read.csv("data/goalie_stats_20182019.csv")
+current <- read.csv("data/goalie_stats_20182019_updated.csv")
 current = current[complete.cases(current),]
 
 lowDanger <-
